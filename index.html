@@ -5,41 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>【今晚吃什麼】學長姐的求生輪盤</title>
     <style>
+        /* ========================================================== */
+        /* ✨ 策展人專區：未來如果想改字，直接修改下方引號內的文字即可！ */
+        /* 注意：每行結尾要加上 \n ，最後一行不用。建議剛好 10 行最完美！ */
+        /* ========================================================== */
+        :root {
+            --wheel-prizes: 
+                "1. 宵夜街神級炸雞\n" +
+                "2. 東門市場文青料理\n" +
+                "3. 城隍廟百年肉圓\n" +
+                "4. 研究生續命咖啡\n" +
+                "5. 清大清茂麵線\n" +
+                "6. 大吃市人氣滷肉飯\n" +
+                "7. 水木餐廳經典排骨\n" +
+                "8. 經國路深夜串燒\n" +
+                "9. 校門口隱藏版綠洲\n" +
+                "10. 竹科工程師愛店肉羹";
+        }
+
         * { box-sizing: border-box; }
         body {
             font-family: 'Helvetica Neue', Arial, 'Noto Sans TC', sans-serif;
-            background: #A99CC7; /* 參考圖片背景的柔和薰衣草紫灰色調 */
-            color: #333;
+            background: transparent; /* 改為透明，完美融入 Tally 背景 */
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow: hidden;
         }
 
-        .game-title {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .game-title h2 { margin: 0; color: #fff; font-size: 1.8rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); }
-        .game-title p { margin: 5px 0 0 0; color: #eee; font-size: 0.9rem; }
-
-        /* 左右主配置面板 */
-        .main-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-            width: 100%;
-            max-width: 900px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        }
-
-        /* 左側：轉盤區 */
+        /* 轉盤外殼區 */
         .wheel-section {
             position: relative;
             width: 360px;
@@ -49,7 +46,7 @@
             justify-content: center;
         }
         
-        /* 參考圖片風格的純樸指標 */
+        /* 灰褐色指標 */
         .pointer {
             position: absolute;
             top: -10px;
@@ -59,7 +56,7 @@
             height: 0;
             border-left: 12px solid transparent;
             border-right: 12px solid transparent;
-            border-top: 25px solid #7D7571; /* 圖片中心的溫柔灰褐色 */
+            border-top: 25px solid #7D7571;
             z-index: 10;
             filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.2));
         }
@@ -68,12 +65,12 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 10px solid #FFFDF4; /* 圖片外圈的米白奶油色邊框 */
+            border: 10px solid #FFFDF4; /* 奶油外圈 */
             box-shadow: 0 6px 15px rgba(0,0,0,0.15);
             transition: transform 4s cubic-bezier(0.1, 0.8, 0.3, 1);
         }
         
-        /* 轉盤中心鈕（參考圖片中的圓心鈕設計） */
+        /* 圓心鈕 */
         #spin-btn {
             position: absolute;
             top: 50%;
@@ -82,7 +79,7 @@
             width: 65px;
             height: 65px;
             border-radius: 50%;
-            background: #9A928D; /* 圖片中心的灰褐色 */
+            background: #9A928D;
             color: #fff;
             border: none;
             font-size: 1.1rem;
@@ -94,39 +91,6 @@
         }
         #spin-btn:disabled { background: #bbb; cursor: not-allowed; }
 
-        /* 右側：自定義後台控制區 */
-        .control-section {
-            flex: 1;
-            min-width: 280px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .control-section h3 { margin: 0; color: #4A4441; font-size: 1.2rem; border-bottom: 2px solid #FBC0A8; padding-bottom: 5px;}
-        textarea {
-            width: 100%;
-            height: 220px; /* 加高方便放入10個選項 */
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 0.95rem;
-            resize: none;
-            line-height: 1.6;
-            background: #FAF9F6;
-        }
-        .btn-update {
-            background: #6A8FAF; /* 莫蘭迪藍調 */
-            color: white;
-            border: none;
-            padding: 11px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn-update:hover { background: #557796; }
-
         /* 彈出結果視窗 */
         .modal {
             display: none;
@@ -135,15 +99,15 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             text-align: center;
             z-index: 100;
-            width: 80%;
-            max-width: 320px;
+            width: 85%;
+            max-width: 280px;
         }
-        .modal h3 { margin-top: 0; color: #E89E84; }
+        .modal h3 { margin-top: 0; color: #E89E84; font-size: 1.3rem; }
         .modal button {
             background: #6A8FAF; color: white; border: none;
             padding: 8px 20px; border-radius: 5px; cursor: pointer; margin-top: 15px;
@@ -152,43 +116,15 @@
 </head>
 <body>
 
-    <div class="game-title">
-        <h2>🍱 今晚吃什麼？</h2>
-        <p>新鮮人生存指南：學長姐的求生輪盤挑戰</p>
+    <div class="wheel-section">
+        <div class="pointer"></div>
+        <canvas id="wheel" width="500" height="500"></canvas>
+        <button id="spin-btn">GO</button>
     </div>
 
-    <div class="main-container">
-        <!-- 左側轉盤 -->
-        <div class="wheel-section">
-            <div class="pointer"></div>
-            <canvas id="wheel" width="500" height="500"></canvas>
-            <button id="spin-btn">GO</button>
-        </div>
-
-        <!-- 右側即時文字編輯後台 -->
-        <div class="control-section">
-            <h3>⚙️ 轉盤文字自定義後台</h3>
-            <p style="margin:0; font-size:0.85rem; color:#666;">請輸入您的 10 大求生美食地圖（每行一個）：</p>
-            <textarea id="options-input">
-1. 宵夜街神級炸雞
-2. 東門市場文青料理
-3. 城隍廟百年肉圓
-4. 研究生續命咖啡
-5. 清大清茂麵線
-6. 大吃市人氣滷肉飯
-7. 水木餐廳經典排骨
-8. 經國路深夜串燒
-9. 校門口隱藏版綠洲
-10. 竹科工程師愛店肉羹
-            </textarea>
-            <button class="btn-update" onclick="updateWheel()">更新轉盤選項</button>
-        </div>
-    </div>
-
-    <!-- 結果彈窗 -->
     <div id="resultModal" class="modal">
-        <p style="margin:0; color:#666;">今晚的命定晚餐是：</p>
-        <h3 id="prize-text" style="font-size:1.4rem; margin: 10px 0;"></h3>
+        <p style="margin:0; color:#666; font-size: 0.9rem;">今晚的命定晚餐是：</p>
+        <h3 id="prize-text"></h3>
         <button onclick="closeModal()">太棒了！</button>
     </div>
 
@@ -198,35 +134,19 @@
         const spinBtn = document.getElementById("spin-btn");
         const modal = document.getElementById("resultModal");
         const prizeText = document.getElementById("prize-text");
-        const optionsInput = document.getElementById("options-input");
 
-        // 🎨 依據 image_6a8581.png 延伸的 10 色深淺交錯調色盤
+        // 🎨 延伸自圖片的 10 色深淺交錯調色盤
         const colorPalette = [
-            "#FBC0A8", // 1. 粉橘（基礎原色）
-            "#6A8FAF", // 2. 莫蘭迪藍（基礎原色）
-            "#FCD3C1", // 3. 淺粉橘（明亮）
-            "#82A5C3", // 4. 淺莫蘭迪藍（明亮）
-            "#E89E84", // 5. 深粉橘（飽和偏沉）
-            "#557796", // 6. 深莫蘭迪藍（沉穩）
-            "#FDE3D6", // 7. 極淺柔粉橘
-            "#9BBED4", // 8. 極淺灰藍
-            "#D6866B", // 9. 焙茶焦粉橘
-            "#435D75"  // 10. 夜幕暗藍
+            "#FBC0A8", "#6A8FAF", "#FCD3C1", "#82A5C3", "#E89E84", 
+            "#557796", "#FDE3D6", "#9BBED4", "#D6866B", "#435D75"
         ];
         
-        let options = [];
-
-        function updateWheel() {
-            options = optionsInput.value.split('\n')
-                .map(opt => opt.trim())
-                .filter(opt => opt.length > 0);
-
-            if (options.length < 2) {
-                alert("請至少輸入兩個選項！");
-                return;
-            }
-            drawWheel();
-        }
+        // 從 CSS CSS :root 中讀取文字清單
+        const rawPrizes = getComputedStyle(document.documentElement).getPropertyValue('--wheel-prizes');
+        // 處理特殊引號與換行，將其轉為陣列
+        const options = rawPrizes.replace(/["']/g, "").split('\n')
+            .map(opt => opt.trim())
+            .filter(opt => opt.length > 0);
 
         function drawWheel() {
             const numSegments = options.length;
@@ -241,26 +161,21 @@
             for (let i = 0; i < numSegments; i++) {
                 const angle = i * segmentAngle;
                 
-                // 畫扇形
                 ctx.beginPath();
                 ctx.moveTo(radius, radius);
                 ctx.arc(radius, radius, radius, angle, angle + segmentAngle);
                 ctx.fillStyle = colorPalette[i % colorPalette.length];
                 ctx.fill();
 
-                // 細白邊分隔線增加精緻感
                 ctx.strokeStyle = "rgba(255,255,255,0.6)";
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                // 寫文字
                 ctx.save();
                 ctx.translate(radius, radius);
                 ctx.rotate(angle + segmentAngle / 2);
                 
-                // 為了閱讀舒適度，極深色背景（最後一色）字體用白色，其他用內斂的深炭灰
                 ctx.fillStyle = (i % colorPalette.length === 9) ? "#ffffff" : "#3D3735"; 
-                
                 ctx.fillText(options[i], radius - 35, 0);
                 ctx.restore();
             }
@@ -298,8 +213,7 @@
 
         function closeModal() { modal.style.display = "none"; }
 
-        // 初始化
-        updateWheel();
+        drawWheel();
     </script>
 </body>
 </html>
